@@ -26,7 +26,7 @@ export default class AMapAPILoader {
 
   load() {
     if (this._window.AMap && this._window.AMap.Map) {
-      return this.loadUIAMap();
+      // return this.loadUIAMap();
     }
 
     if (this._scriptLoadingPromise) return this._scriptLoadingPromise;
@@ -35,51 +35,18 @@ export default class AMapAPILoader {
     script.async = true;
     script.defer = true;
     script.src = this._getScriptSrc();
-
-    const UIPromise = this._config.uiVersion ? this.loadUIAMap() : null;
-
     this._scriptLoadingPromise = new Promise((resolve, reject) => {
       this._window['amapInitComponent'] = () => {
         while (this._queueEvents.length) {
           this._queueEvents.pop().apply();
         }
-        if (UIPromise) {
-          UIPromise.then(() => {
-            window.initAMapUI();
-            setTimeout(resolve);
-          });
-        } else {
-          return resolve();
-        }
+        return resolve();
       };
       script.onerror = error => reject(error);
     });
     this._document.head.appendChild(script);
     return this._scriptLoadingPromise;
   }
-
-  loadUIAMap() {
-    if (!this._config.uiVersion || window.AMapUI) return Promise.resolve();
-    return new Promise((resolve, reject) => {
-      const UIScript = document.createElement('script');
-      const [versionMain, versionSub, versionDetail] = this._config.uiVersion.split('.');
-      if (versionMain === undefined || versionSub === undefined) {
-        console.error('amap ui version is not correct, please check! version: ', this._config.uiVersion);
-        return;
-      }
-      let src = `${this._config.protocol}://webapi.amap.com/ui/${versionMain}.${versionSub}/main-async.js`;
-      if (versionDetail) src += `?v=${versionMain}.${versionSub}.${versionDetail}`;
-      UIScript.src = src;
-      UIScript.type = 'text/javascript';
-      UIScript.async = true;
-      this._document.head.appendChild(UIScript);
-      UIScript.onload = () => {
-        setTimeout(resolve, 0);
-      };
-      UIScript.onerror = () => reject();
-    });
-  }
-
   _getScriptSrc() {
     // amap plugin prefix reg
     const amap_prefix_reg = /^AMap./;
