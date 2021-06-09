@@ -26,6 +26,10 @@ const webpackConfig = merge(baseWebpackConfig, {
         warnings: false
       },
       sourceMap: true
+    }),
+    // extract css into its own file
+    new ExtractTextPlugin({
+      filename: utils.assetsPath('css/[name].[contenthash].css')
     })
   ],
   devtool: config.lib_build.productionSourceMap ? '#source-map' : false,
@@ -44,7 +48,8 @@ const webpackConfig = merge(baseWebpackConfig, {
         commonjs2: 'vue',
         amd: 'vue'
       }
-  }
+  },
+
 })
 
 module.exports = webpackConfig

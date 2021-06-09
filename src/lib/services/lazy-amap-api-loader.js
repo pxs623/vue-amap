@@ -3,8 +3,8 @@ import { patchIOS11Geo } from '../utils/polyfill';
 const DEFAULT_AMP_CONFIG = {
   key: null,
   v: '1.4.4',
-  protocol: 'https',
-  hostAndPath: 'webapi.amap.com/maps',
+  protocol: 'http',
+  hostAndPath: '10.32.22.165:8102/maps',
   plugin: [],
   callback: 'amapInitComponent'
 };

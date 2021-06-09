@@ -1,6 +1,6 @@
 {
-  "name": "vue-amap",
-  "version": "0.5.10",
+  "name": "vue-jsunicom-amap",
+  "version": "0.5.12",
   "description": "vue amap",
   "main": "./dist/index.js",
   "sideEffects": false,
@@ -10,7 +10,7 @@
   "scripts": {
     "dev": "node build/dev-server.js --content-base dist/",
     "build": "node build/build.js",
-    "lib": "npm run test && export LIB_ENV=lib && node build/lib.js",
+    "lib": "node build/lib.js",
     "start": "node build/dev-server.js",
     "lint": "eslint src",
     "test": "npm run lint && npm run test:unit",
@@ -20,7 +20,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ElemeFE/vue-amap.git"
+    "url": "git@github.com:pxs623/vue-amap.git"
   },
   "files": [
     "dist",
